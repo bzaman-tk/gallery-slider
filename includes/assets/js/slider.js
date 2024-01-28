@@ -1,72 +1,64 @@
 document.addEventListener("DOMContentLoaded", function () {
-  var bzMain = document.querySelector(".bz-main");
-  //var imgContainer = bzMain.querySelector('img');
   var thumbs = document.querySelectorAll(".bz-nav .swiper-slidebz");
 
   thumbs.forEach(function (thumb) {
     thumb.addEventListener("click", function () {
-      // Get the main attribute value
-      var mainSrc = thumb.getAttribute("main");
+      var bzMainWrap = thumb.closest(".bz-main-wrap");
+      var bzMain = bzMainWrap.querySelector(".bz-main");
 
-      // Create an image element
+      var mainSrc = thumb.getAttribute("main");
       var img = new Image();
       img.src = mainSrc;
       img.classList.add("active-img");
-      // Clear existing images in bz-main
-      //bzMain.innerHTML = '';
 
-      document
-        .querySelector(".bz-main img.active-img")
-        .classList.add("previmg");
-      document
-        .querySelector(".bz-main img.previmg")
-        .classList.remove("active-img");
+      bzMain.querySelector("img.active-img").classList.add("previmg");
+      bzMain.querySelector("img.previmg").classList.remove("active-img");
 
-      // Append the new image to bz-main
       bzMain.appendChild(img);
-      var prevImgElement = document.querySelector(".previmg");
-		if (prevImgElement) {
-		  prevImgElement.style.opacity = "0";
-		  prevImgElement.style.backgroundColor = "white";
-		}
-      var activeImgElement = document.querySelector(".active-img");
+      var prevImgElement = bzMain.querySelector(".previmg");
+
+      var activeImgElement = bzMain.querySelector(".active-img");
 
       if (activeImgElement) {
         var currentPosition = -100;
         var targetPosition = 0;
 
         var animationInterval = setInterval(function () {
-          currentPosition += 3; // Adjust the speed of the animation here
+          currentPosition += 3;
           activeImgElement.style.right = currentPosition + "%";
 
           if (currentPosition >= targetPosition) {
             clearInterval(animationInterval);
             activeImgElement.style.right = "0";
-            activeImgElement.style.position = "relative"; // or "absolute", "fixed", etc.
+            activeImgElement.style.position = "relative";
+
             if (prevImgElement) {
               prevImgElement.parentNode.removeChild(prevImgElement);
             }
-			  
-var bzMain = document.querySelector('.bz-main');
-if (bzMain) {
-  var imgElements = bzMain.querySelectorAll('img');
-  
-  // Remove all img elements except the last one
-  for (var i = 0; i < imgElements.length - 1; i++) {
-    imgElements[i].remove();
-  }
-}
-			  
-			  
+
+            var imgElements = bzMain.querySelectorAll('img');
+            for (var i = 0; i < imgElements.length - 1; i++) {
+              imgElements[i].remove();
+            }
           }
-        }, 16); // Assuming 60 frames per second (1000ms / 60 frames ≈ 16ms per frame)
+        }, 16);
       }
     });
   });
 
-  var elementToClick = document.getElementById("first-thumb");
+  // var elementToClick = document.getElementById("first-thumb");
 
-  if (elementToClick) {
-    elementToClick.click();
-  }
+  // if (elementToClick) {
+  //   elementToClick.click();
+  // }
+
+  var mainWraps = document.querySelectorAll(".bz-main-wrap");
+
+  mainWraps.forEach(function (mainWrap) {
+    var elementToClick = mainWrap.querySelector(".first-thumb > div");
+    if (elementToClick) {
+      elementToClick.click();
+    }
+  });
+
 });
