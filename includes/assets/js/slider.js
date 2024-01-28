@@ -16,7 +16,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
       bzMain.appendChild(img);
       var prevImgElement = bzMain.querySelector(".previmg");
-
+      if (prevImgElement) {
+        prevImgElement.style.opacity = "0";
+        prevImgElement.style.backgroundColor = "white";
+      }
       var activeImgElement = bzMain.querySelector(".active-img");
 
       if (activeImgElement) {
